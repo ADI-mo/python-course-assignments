@@ -25,7 +25,7 @@ This is a **modular Python project** designed to calculate and analyze the **spe
 Cell growth is an exponential process. To transform it into a linear process, we apply a logarithmic transformation (base 2):
 
 [
-\log_2(N) = \log_2(N_0) + k \cdot t
+$\log_2(N) = \log_2(N_0) + k \cdot t$
 ]
 
 * $\log_2(N)$ is the vertical axis
