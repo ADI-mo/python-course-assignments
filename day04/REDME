@@ -1,0 +1,58 @@
+Here’s a concise summary in English, focused on the commands you requested and what we did:
+
+---
+
+## 1️⃣ Ignore `__pycache__` and `.pyc` files
+
+**Create or edit `.gitignore`** in the project root:
+
+```text
+__pycache__/
+*.pyc
+```
+
+* This tells Git to ignore Python cache files.
+
+---
+
+## 2️⃣ Remove already tracked cache files
+
+If `__pycache__` or `.pyc` files were already in Git:
+
+```bash
+git rm -r --cached __pycache__
+git rm -r --cached *.pyc
+```
+
+* `--cached` removes them from Git tracking **without deleting them locally**.
+
+---
+
+## 3️⃣ Commit and push changes
+
+```bash
+git add .gitignore
+git commit -m "Remove pycache from repo and add gitignore"
+git push
+```
+
+* This applies the `.gitignore` and updates the remote repository.
+
+---
+
+## 4️⃣ Check that Git ignores the files
+
+```bash
+git status
+git check-ignore -v __pycache__/
+```
+
+* These commands confirm that `__pycache__` and `.pyc` are no longer tracked.
+
+---
+
+✅ After these steps, Git will no longer track Python cache files, and your repository stays clean.
+
+---
+
+If you want, I can give a **single one-line command** to verify `.gitignore` works for all future Python cache files.
