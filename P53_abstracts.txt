@@ -1,0 +1,15 @@
+
+========================================
+Title:   OTUD4 suppresses colorectal cancer progression through deubiquitinating p53.
+Abstract: No Abstract Available
+========================================
+
+========================================
+Title:   Transient Receptor Potential Melastatin 4 (TRPM4) is associated with an immuno-stimulatory TME and better prognosis in BLCA.
+Abstract: Bladder cancer (BLCA) is one of the most invasive and malignant tumors in the world, thus leading to the urgent need of an accurate and recognizable biomarker. Several previous research has shown that Transient Receptor Potential Melastatin 4 (TRPM4) plays an important role in measuring vascular fragility and endothelial function. However, the role of TRPM4 in tumor hasn't been explored.
+========================================
+
+========================================
+Title:   Reprogramming the GRHL2-CDK19 axis by gene therapy alleviates prostate aging.
+Abstract: The prostate is a multifunctional organ of the male reproductive system whose aging process impairs sexual and urinary function and fertility and increases disease susceptibility, thereby compromising quality of life. However, the mechanisms underlying human prostate aging remain poorly understood. Here we integrated single-nucleus transcriptomics and histological analyses to elucidate the aging mechanisms of the primate prostate. We identified epithelial cell senescence, chronic inflammation and fibrosis as key hallmarks of prostate aging. In young epithelial cells, GRHL2 promotes CDK19 transcription, which sequesters p53, leading to the suppression of p21
+========================================
