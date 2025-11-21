@@ -11,7 +11,7 @@ The Formula
 
 The specific growth rate (k) is calculated using the natural logarithm of the final concentration (N_t) relative to the initial concentration (N_0) over the elapsed time (t):
 
-k = ln(N_t) - \ln(N_0)\t
+$k = ln(N_t) - \ln(N_0)\t$
 
 The Outputs
 
