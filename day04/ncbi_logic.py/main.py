@@ -1,40 +1,55 @@
 import ncbi_logic
+import csv
+from pathlib import Path
 
 def run():
-    print("--- NCBI PubMed Search Tool (With Abstract) ---")
-    term = input("Enter a search term: ")
+    print("--- 🧬 Advanced PubMed Researcher 🧬 ---")
     
+    # 1. קלט משתמש מתקדם
+    term = input("Enter search term: ")
     try:
-        print(f"Searching for '{term}'...")
-        ids = ncbi_logic.search_pubmed(term)
+        limit = int(input("How many articles to analyze? (Max 50): "))
+    except ValueError:
+        limit = 5 # ברירת מחדל אם המשתמש הקיש שטויות
+
+    try:
+        # 2. חיפוש
+        print(f"\n🔍 Searching for '{term}'...")
+        ids = ncbi_logic.search_pubmed(term, limit)
         
         if not ids:
-            print("No results found.")
+            print("❌ No results found.")
             return
 
-        print(f"Found {len(ids)} articles. Fetching abstracts...")
-        # הפעם אנחנו מקבלים רשימה מסודרת של מאמרים
+        # 3. הורדה
+        print(f"📥 Found {len(ids)} articles. Downloading abstracts...")
         articles = ncbi_logic.fetch_details(ids)
         
-        full_output = "" # נצבור את הטקסט כדי לשמור אותו לקובץ אחר כך
+        # 4. ניתוח נתונים (החלק המתוחכם)
+        print("🧠 Analyzing text patterns...")
+        top_keywords = ncbi_logic.analyze_keywords(articles)
+        
+        print(f"\n📊 Top keywords in these papers:")
+        print("-" * 30)
+        for word, count in top_keywords:
+            print(f"{word:15} : {count} times")
+        print("-" * 30)
 
-        for item in articles:
-            # הכנת הטקסט להדפסה
-            text_block = (
-                f"\n{'='*40}\n"
-                f"Title:   {item['title']}\n"
-                f"Abstract: {item['abstract']}\n" # הדפסת התקציר
-                f"{'='*40}\n"
-            )
-            
-            print(text_block)
-            full_output += text_block
+        # 5. שמירה לקובץ CSV (טבלה לאקסל)
+        save_folder = Path(__file__).parent
+        filename = f"{term.replace(' ', '_')}_analysis.csv"
+        full_path = save_folder / filename
+        
+        with open(full_path, "w", newline='', encoding="utf-8") as csvfile:
+            fieldnames = ['id', 'year', 'journal', 'title', 'abstract']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            writer.writeheader() # כתיבת כותרות העמודות
+            for art in articles:
+                writer.writerow(art)
                 
-        # שמירה לקובץ
-        filename = f"{term.replace(' ', '_')}_abstracts.txt"
-        with open(filename, "w", encoding="utf-8") as f:
-            f.write(full_output)
-        print(f"\nSaved full details to {filename}")
+        print(f"\n✅ Success! Data saved to: {filename}")
+        print("(You can open this file in Excel)")
 
     except Exception as e:
         print(f"Error: {e}")
