@@ -51,6 +51,13 @@ Open your terminal/command prompt and run:
 pip install requests
 
 
+Verify Files:
+Make sure you have both of the following files in the same folder:
+
+main.py
+
+ncbi_client.py
+
 Run the program:
 
 python main.py
