@@ -1,0 +1,42 @@
+--- Search Results (5 Articles) ---
+
+Article #1
+Title:    The RNA interactome in the Hallmarks of Cancer.
+Journal:  Wiley interdisciplinary reviews. RNA (2023)
+Authors:  Gabryelska MM, Conn SJ
+Abstract:
+Ribonucleic acid (RNA) molecules are indispensable for cellular homeostasis in healthy and malignant cells. However, the functions of RNA extend well beyond that of a protein-coding template. Rather, both coding and non-coding RNA molecules function through critical interactions with a plethora of cellular molecules, including other RNAs, DNA, and proteins. Deconvoluting this RNA interactome, including the interacting partners, the nature of the interaction, and dynamic changes of these interactions in malignancies has yielded fundamental advances in knowledge and are emerging as a novel therapeutic strategy in cancer. Here, we present an RNA-centric review of recent advances in the field of RNA-RNA, RNA-protein, and RNA-DNA interactomic network analysis and their impact across the Hallmarks of Cancer. This article is categorized under: RNA in Disease and Development > RNA in Disease RNA Interactions with Proteins and Other Molecules > RNA-Protein Complexes.
+--------------------------------------------------------------------------------
+
+Article #2
+Title:    Detecting RNA-RNA interactome.
+Journal:  Wiley interdisciplinary reviews. RNA (2022)
+Authors:  Singh S, Shyamal S, Panda AC
+Abstract:
+The last decade has seen a robust increase in various types of novel RNA molecules and their complexity in gene regulation. RNA molecules play a critical role in cellular events by interacting with other biomolecules, including protein, DNA, and RNA. It has been established that RNA-RNA interactions play a critical role in several biological processes by regulating the biogenesis and function of RNA molecules. Interestingly, RNA-RNA interactions regulate the biogenesis of diverse RNA molecules, including mRNAs, microRNAs, tRNAs, and circRNAs, through splicing or backsplicing. Structured RNAs like rRNA, tRNA, and snRNAs achieve their functional conformation by intramolecular RNA-RNA interactions. In addition, functional consequences of many intermolecular RNA-RNA interactions have been extensively studied in the regulation of gene expression. Hence, it is essential to understand the mechanism and functions of RNA-RNA interactions in eukaryotes. Conventionally, RNA-RNA interactions have been identified through diverse biochemical methods for decades. The advent of high-throughput RNA-sequencing technologies has revolutionized the identification of global RNA-RNA interactome in cells and their importance in RNA structure and function in gene expression regulation. Although these technologies revealed tens of thousands of intramolecular and intermolecular RNA-RNA interactions, we further look forward to future unbiased and quantitative high-throughput technologies for detecting transcriptome-wide RNA-RNA interactions. With the ability to detect RNA-RNA interactome, we expect that future studies will reveal the higher-order structures of RNA molecules and multi-RNA hybrids impacting human health and diseases. This article is categorized under: RNA Methods > RNA Analyses In Vitro and In Silico RNA Structure and Dynamics > Influence of RNA Structure in Biological Systems.
+--------------------------------------------------------------------------------
+
+Article #3
+Title:    RNA Repair: Hiding in Plain Sight.
+Journal:  Annual review of genetics (2023)
+Authors:  Shuman S
+Abstract:
+Enzymes that phosphorylate, dephosphorylate, and ligate RNA 5' and 3' ends were discovered more than half a century ago and were eventually shown to repair purposeful site-specific endonucleolytic breaks in the RNA phosphodiester backbone. The pace of discovery and characterization of new candidate RNA repair activities in taxa from all phylogenetic domains greatly exceeds our understanding of the biological pathways in which they act. The key questions anent RNA break repair in vivo are (a) identifying the triggers, agents, and targets of RNA cleavage and (b) determining whether RNA repair results in restoration of the original RNA, modification of the RNA (by loss or gain at the ends), or rearrangements of the broken RNA segments (i.e., RNA recombination). This review provides a perspective on the discovery, mechanisms, and physiology of purposeful RNA break repair, highlighting exemplary repair pathways (e.g., tRNA restriction-repair and tRNA splicing) for which genetics has figured prominently in their elucidation.
+--------------------------------------------------------------------------------
+
+Article #4
+Title:    RNA modifications as emerging therapeutic targets.
+Journal:  Wiley interdisciplinary reviews. RNA (2022)
+Authors:  Cayir A
+Abstract:
+The field of epitranscriptome, posttranscriptional modifications to RNAs, is still growing up and has presented substantial evidences for the role of RNA modifications in diseases. In terms of new drug development, RNA modifications have a great promise for therapy. For example, more than 170 type of modifications exist in various types of RNAs. Regulatory genes and their roles in critical biological process have been identified and they are associated with several diseases. Current data, for example, identification of inhibitors targeting RNA modifications regulatory genes, strongly support the idea that RNA modifications have potential as emerging therapeutic targets. Therefore, in this review, RNA modifications and regulatory genes were comprehensively documented in terms of drug development by summarizing the findings from previous studies. It was discussed how RNA modifications or regulatory genes can be targeted by altering molecular mechanisms. This article is categorized under: RNA in Disease and Development > RNA in Disease RNA Interactions with Proteins and Other Molecules > Protein-RNA Interactions: Functional Implications RNA Processing > RNA Editing and Modification.
+--------------------------------------------------------------------------------
+
+Article #5
+Title:    Pseudoknots in RNA Structure Prediction.
+Journal:  Current protocols (2023)
+Authors:  Hollar A, Bursey H, Jabbari H
+Abstract:
+RNA molecules play active roles in the cell and are important for numerous applications in biotechnology and medicine. The function of an RNA molecule stems from its structure. RNA structure determination is time consuming, challenging, and expensive using experimental methods. Thus, much research has been directed at RNA structure prediction through computational means. Many of these methods focus primarily on the secondary structure of the molecule, ignoring the possibility of pseudoknotted structures. However, pseudoknots are known to play functional roles in many RNA molecules or in their method of interaction with other molecules. Improving the accuracy and efficiency of computational methods that predict pseudoknots is an ongoing challenge for single RNA molecules, RNA-RNA interactions, and RNA-protein interactions. To improve the accuracy of prediction, many methods focus on specific applications while restricting the length and the class of the pseudoknotted structures they can identify. In recent years, computational methods for structure prediction have begun to catch up with the impressive developments seen in biotechnology. Here, we provide a non-comprehensive overview of available pseudoknot prediction methods and their best-use cases. © 2023 Wiley Periodicals LLC.
+--------------------------------------------------------------------------------
+

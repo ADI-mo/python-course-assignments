@@ -1,10 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox, scrolledtext, font
 import os
+import re  # Added regex for filename sanitization
 from ncbi_client import NCBIClient
-
-# Changed extension to .txt
-OUTPUT_FILE = "pubmed_results.txt"
 
 class PubMedApp:
     def __init__(self, root):
@@ -47,8 +45,12 @@ class PubMedApp:
         # --- Results Area ---
         tk.Label(self.root, text="Results Preview:", font=label_font, anchor="w").pack(fill="x", padx=20)
         
-        self.results_area = scrolledtext.ScrolledText(self.root, width=90, height=25, font=("Consolas", 10))
+        # FIX: wrap=tk.WORD ensures whole words go to next line
+        self.results_area = scrolledtext.ScrolledText(self.root, width=80, height=25, font=("Consolas", 10), wrap=tk.WORD)
         self.results_area.pack(padx=20, pady=5, expand=True, fill="both")
+        
+        # FIX: Create a tag to FORCE Left-to-Right alignment
+        self.results_area.tag_configure("left_align", justify="left")
 
     def run_search(self, event=None):
         term = self.search_entry.get().strip()
@@ -66,7 +68,7 @@ class PubMedApp:
             
             if not ids:
                 self.status_var.set("No results found.")
-                self.results_area.insert(tk.END, "No articles found matching your criteria.")
+                self.results_area.insert(tk.END, "No articles found matching your criteria.", "left_align")
                 return
 
             self.status_var.set(f"Found {len(ids)} articles. Fetching abstracts...")
@@ -78,11 +80,18 @@ class PubMedApp:
             # 3. Display Logic
             self._display_data(data)
 
-            # 4. Save Logic
-            if self.client.save_data(data, OUTPUT_FILE):
-                full_path = os.path.abspath(OUTPUT_FILE)
-                messagebox.showinfo("Success", f"Data saved to text file:\n{full_path}")
-                self.status_var.set(f"Saved {len(data)} articles to .txt file.")
+            # 4. Save Logic (Dynamic Filename)
+            # Create a safe filename from the search term
+            # Replace non-alphanumeric chars with underscore, keep spaces as underscores
+            safe_term = "".join(c if c.isalnum() else "_" for c in term)
+            # Collapse multiple underscores
+            safe_term = re.sub(r'_+', '_', safe_term) 
+            filename = f"pubmed_results_{safe_term}.txt"
+
+            if self.client.save_data(data, filename):
+                full_path = os.path.abspath(filename)
+                messagebox.showinfo("Success", f"Data saved to:\n{full_path}")
+                self.status_var.set(f"Saved to {filename}")
             else:
                 self.status_var.set("Error saving file.")
 
@@ -93,7 +102,7 @@ class PubMedApp:
 
     def _display_data(self, data_list):
         if not data_list:
-            self.results_area.insert(tk.END, "Could not parse details.")
+            self.results_area.insert(tk.END, "Could not parse details.", "left_align")
             return
 
         for i, item in enumerate(data_list, 1):
@@ -109,7 +118,8 @@ class PubMedApp:
             entry += f"   Abstract: {abstract}\n"
             entry += "-" * 80 + "\n\n"
             
-            self.results_area.insert(tk.END, entry)
+            # FIX: Apply the "left_align" tag to the inserted text
+            self.results_area.insert(tk.END, entry, "left_align")
 
 if __name__ == "__main__":
     root = tk.Tk()

@@ -78,9 +78,18 @@ class NCBIClient:
                 if not year:
                     year = article.findtext(".//PubDate/MedlineDate")
                 
-                # Extract Abstract
+                # --- FIX: Better Abstract Extraction ---
+                # Use itertext() to capture text inside formatting tags (like <i>, <b>, <sub>)
+                # This prevents text from being cut off at chemical formulas or italics.
                 abstract_texts = article.findall(".//AbstractText")
-                abstract = " ".join([t.text for t in abstract_texts if t.text])
+                full_abstract_parts = []
+                for t in abstract_texts:
+                    # ' '.join(t.itertext()) collects all nested text within this tag
+                    part_text = "".join(t.itertext())
+                    if part_text:
+                        full_abstract_parts.append(part_text)
+                
+                abstract = " ".join(full_abstract_parts)
                 if not abstract:
                     abstract = "No Abstract Available."
 
