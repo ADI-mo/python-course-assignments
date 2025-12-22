@@ -1,9 +1,9 @@
 """
-🌍 ECO-PULSE: ULTIMATE CLIMATE REPORT (FINAL & ORIGINAL TEXT)
+🌍 ECO-PULSE: ULTIMATE CLIMATE REPORT (FULLY DYNAMIC)
 Features:
-1. ORIGINAL TEXT RESTORED: Exact wording as requested.
-2. FIXED LEGEND: Thick squares for seasons.
-3. INTERACTIVE: Asks before overwrite.
+1. ALL NUMBERS ARE CALCULATED: No hardcoded stats. Everything updates with data.
+2. FIXED BOLD TEXT: HTML tags used for formatting.
+3. INTERACTIVE: Asks user before overwrite.
 """
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -19,12 +19,13 @@ import matplotlib.patches as mpatches
 # ==========================================
 
 def get_general_recommendation():
+    # Uses HTML tags <strong> for bold text instead of markdown **
     tips = [
-        "🌱 **Reduce Meat Consumption:** The livestock industry is a major source of methane. Reducing meat intake helps lower global emissions.",
-        "💡 **Energy Efficiency:** Switch to LED bulbs and energy-efficient appliances to reduce your carbon footprint significantly.",
-        "🚗 **Sustainable Transport:** Whenever possible, walk, bike, or use public transportation instead of driving private vehicles.",
-        "🗑️ **Minimize Food Waste:** Decomposing food in landfills produces methane. Buy only what you need and compost organic waste.",
-        "🌡️ **Smart Heating/Cooling:** Adjusting your thermostat by just 1°C can reduce energy bills and emissions by up to 10%."
+        "🌱 <strong>Reduce Meat Consumption:</strong> The livestock industry is a major source of methane. Reducing meat intake helps lower global emissions.",
+        "💡 <strong>Energy Efficiency:</strong> Switch to LED bulbs and energy-efficient appliances to reduce your carbon footprint significantly.",
+        "🚗 <strong>Sustainable Transport:</strong> Whenever possible, walk, bike, or use public transportation instead of driving private vehicles.",
+        "🗑️ <strong>Minimize Food Waste:</strong> Decomposing food in landfills produces methane. Buy only what you need and compost organic waste.",
+        "🌡️ <strong>Smart Heating/Cooling:</strong> Adjusting your thermostat by just 1°C can reduce energy bills and emissions by up to 10%."
     ]
     return random.choice(tips)
 
@@ -92,11 +93,12 @@ def generate_interactive_report():
     os.makedirs('outputs', exist_ok=True)
     plt.style.use('seaborn-v0_8-whitegrid')
     
-    print("✅ Generating charts...")
+    print("✅ Generating charts & calculating stats...")
 
     # Chart 1: CO2 vs Temp
     fig, ax1 = plt.subplots(figsize=(12, 6))
     df_chart1 = df_merged[df_merged['Year'] >= 1950]
+    # CALCULATION 1: Correlation
     correlation, _ = stats.pearsonr(df_chart1['CO2'], df_chart1['Temp_Avg'])
     
     l1 = ax1.plot(df_chart1['Year'], df_chart1['Temp_Avg'], color='#e74c3c', linewidth=3, label='Global Temp (°C)')
@@ -134,9 +136,15 @@ def generate_interactive_report():
     df_bar = df[df['Year'] >= (df['Year'].max() - 20)].copy()
     df_bar_plot = df_bar[['Year', 'Jan', 'Apr', 'Jul', 'Oct']].set_index('Year')
     
+    # CALCULATION 2: Seasonal Stats
     oct_recent_avg = df_bar['Oct'].mean()
     oct_historic_avg = df[(df['Year'] >= 1950) & (df['Year'] <= 1980)]['Oct'].mean()
     oct_increase = oct_recent_avg - oct_historic_avg
+    
+    # Calculating specific seasonal averages for the report
+    avg_winter = df_bar['Jan'].mean()
+    avg_summer = df_bar['Jul'].mean()
+    avg_autumn = df_bar['Oct'].mean()
 
     ax = df_bar_plot.plot(kind='bar', figsize=(14, 7), width=0.85, color=['#3498db', '#2ecc71', '#e67e22', '#9b59b6'])
     plt.title('3. Seasonal Anomalies: Is Winter Delayed?', fontsize=16, fontweight='bold', pad=20)
@@ -155,8 +163,11 @@ def generate_interactive_report():
 
     # Chart 4: Heatmap
     df_heat = df[df['Year'] >= (df['Year'].max() - 20)].set_index('Year')[months]
-    # We still calculate this for the chart itself, but the text is hardcoded below as requested
-    extreme_count = (df_heat > 1.0).sum().sum() 
+    
+    # CALCULATION 3: Heatmap Stats
+    extreme_count = (df_heat > 1.0).sum().sum()
+    total_months = df_heat.size
+    percent_extreme = (extreme_count / total_months) * 100
 
     plt.figure(figsize=(12, 7))
     sns.heatmap(df_heat.T, cmap='RdBu_r', center=0, annot=False, cbar_kws={'label': 'Anomaly (°C)'}, linewidths=0.5)
@@ -165,9 +176,10 @@ def generate_interactive_report():
     plt.savefig('outputs/4_heatmap.png', dpi=300)
     plt.close()
 
-    # HTML Report with YOUR EXACT TEXT
+    # HTML Report
     recommendation = get_general_recommendation()
 
+    # Note: All numbers inside {} are variables calculated above!
     html_content = f"""
     <html>
     <head>
@@ -208,9 +220,9 @@ def generate_interactive_report():
                 Note that Autumn (Purple bars) is consistently showing high anomalies, delaying the arrival of winter.<br>
                 In the last 20 years, October is <b>{oct_increase:.2f}°C warmer</b> on average compared to the historical baseline (1950-1980).<br>
                 This effectively means "real winter" arrives weeks later than it used to.<br><br>
-                • Winter Average Anomaly: +0.90°C<br>
-                • Summer Average Anomaly: +0.84°C<br>
-                • Autumn Average Anomaly: +0.95°C.
+                • Winter Average Anomaly: +{avg_winter:.2f}°C<br>
+                • Summer Average Anomaly: +{avg_summer:.2f}°C<br>
+                • Autumn Average Anomaly: +{avg_autumn:.2f}°C.
             </div>
         </div>
 
@@ -223,8 +235,8 @@ def generate_interactive_report():
                 Reading the Chart: Years are on the bottom, Months on the left. We removed the numbers to focus on the color intensity.<br><br>
                 The Scale: Light orange is warm. Dark Maroon is dangerous heat (> 1.2°C anomaly)<br><br>
                 Statistical Analysis:<br>
-                Out of 252 months analyzed in this period, 52 months exceeded the critical threshold of +1.0°C.<br>
-                That means 20.6% of the time, we are living in extreme heat conditions relative to history.
+                Out of {total_months} months analyzed in this period, {extreme_count} months exceeded the critical threshold of +1.0°C.<br>
+                That means {percent_extreme:.1f}% of the time, we are living in extreme heat conditions relative to history.
             </div>
         </div>
 
