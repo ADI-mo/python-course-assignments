@@ -154,7 +154,7 @@ def generate_interactive_report():
     handles = [mpatches.Patch(color='#3498db', label='Jan (Winter)'),
                mpatches.Patch(color='#2ecc71', label='Apr (Spring)'),
                mpatches.Patch(color='#e67e22', label='Jul (Summer)'),
-               mpatches.Patch(color='#9b59b6', label='Oct (Autumn)')]
+               mpatches.Patch(color="#9d3ec3", label='Oct (Autumn)')]
     plt.legend(handles=handles, loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=4, frameon=False, fontsize=11)
     
     plt.tight_layout()
