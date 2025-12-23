@@ -77,4 +77,4 @@ This project followed an iterative feedback-driven workflow between the user and
 * **`seasonal_analysis.py`**: The main engine. It uses `os.path.abspath(__file__)` to find its own location on your computer, ensuring the `outputs/` folder is always created in the right place. It merges temperature data (NASA) with CO2 data (OWID) using a common `Year` key to calculate scientific correlations.
 * **`test_seasonal.py`**: A safety net that uses `pytest` to confirm that the code's paths and logic haven't been broken during updates.
 
-Would you like me to generate a `requirements.txt` file to bundle all these dependencies for easy sharing?
+
