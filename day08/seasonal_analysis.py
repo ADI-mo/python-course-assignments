@@ -10,6 +10,7 @@ import numpy as np
 from scipy import stats
 import random
 import matplotlib.patches as mpatches
+from datetime import datetime
 
 # ==========================================
 # Path Configuration - This fixes the "wrong folder" issue
@@ -141,6 +142,9 @@ def generate_interactive_report():
     plt.savefig(os.path.join(OUTPUT_DIR, '4_heatmap.png'), dpi=300)
     plt.close()
 
+# --- HTML Report Generation ---
+    generation_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S") # Generated here!
+    recommendation = get_general_recommendation()
     # HTML Report
     recommendation = get_general_recommendation()
     html_content = f"""
