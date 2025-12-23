@@ -67,11 +67,6 @@ This project was developed through an iterative, human-guided workflow with **Ge
 
 ---
 
-### 📂 מה השתנה ב-README הזה?
 
-1. **Absolute Path Management:** הוספנו סעיף שמסביר שהקבצים נשמרים תמיד בתיקיית ה-`outputs` המקומית (התיקון שעשינו היום).
-2. **Timestamped Analysis:** ציינו שהדוח כולל כעת חותמת זמן.
-3. **Testing:** הוספנו הוראות ברורות איך להריץ את ה-`pytest`.
-4. **English Sync:** דאגנו שהתיאור ב-README יתאים בדיוק למשתנים ולמבנה הקיים בקוד ה-Python המעודכן.
 
 
