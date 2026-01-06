@@ -1,9 +1,3 @@
-זה רעיון מעולה. הוספת תמונה ישירות דרך **VS Code** (באמצעות Git) היא הדרך ה"מקצועית" לעשות זאת, וזה חוסך את הצורך להיכנס לאתר של GitHub בכל פעם.
-
-עדכנתי את ה-README כך שיכלול את ההסבר על העלאת התמונה דרך VS Code, וגם הוספתי סעיף **Example Insights** שמראה למרצים שאתה לא רק "מריץ קוד" אלא גם מבין את המשמעות של הנתונים.
-
----
-
 # Python Course Pedagogical Analyzer 📊
 
 This project is a data-driven tool designed to bridge the gap between raw GitHub technical data and actionable pedagogical insights. By analyzing student submissions, comments, and resolution times, it provides course staff with a high-level view of class progress and difficulty points.
@@ -27,6 +21,9 @@ This project is a data-driven tool designed to bridge the gap between raw GitHub
 * **Bottlenecks:** If "Avg Days to Approve" is rising, the teaching staff may need more resources to handle the volume.
 
 ---
+## 📸 Dashboard Example
+![Course Pedagogical Dashboard](./final_course_report.png)
+*Figure 1: Automated dashboard generated from GitHub Issue data.*
 
 ## 🛠 AI Usage & Core Methodology
 
