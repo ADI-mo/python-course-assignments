@@ -72,12 +72,4 @@ This project was co-developed with **Gemini AI**, utilizing advanced data engine
 
 **Developed for the WIS Python Course 2025-10.**
 
----
 
-### מה השלב הבא?
-
-1. **העתק את הטקסט למעלה** לתוך קובץ בשם `README.md` בתוך התיקייה שלך ב-VS Code.
-2. **תפתור את ה-Conflict** בגיט (אם הוא עדיין שם) על ידי בחירת "Accept Current Change".
-3. **תעשה Push** להכל יחד – גם לקוד, גם ל-README וגם לתמונה.
-
-**האם תרצה שאעזור לך לכתוב את פקודות ה-Terminal לפתרון ה-Conflict אם ה-VS Code עדיין עושה בעיות?**
