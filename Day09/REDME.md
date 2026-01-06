@@ -57,9 +57,6 @@ External Interactions: The system only measures activity documented on GitHub. F
 Reporting Accuracy: The system does not identify cases where the code was significantly updated after the original Issue was opened; it tracks the initial submission time.
 
 
-## 📸 Dashboard Example
-![Course Pedagogical Dashboard](./final_course_report.png)
-*Figure 1: Automated dashboard generated from GitHub Issue data.*
 
 ## 📁 Project Structure
 
