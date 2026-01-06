@@ -73,40 +73,64 @@ most_late_val = late_by_task.max() if not late_by_task.empty else 0
 
 plt.style.use('seaborn-v0_8-whitegrid')
 fig = plt.figure(figsize=(20, 25))
-gs = gridspec.GridSpec(4, 2, height_ratios=[1, 1, 1, 0.6])
+# --- PART 3: VISUALIZATION (Updated with display names and layout fixes) ---
+
+# Shorten long names for display purposes before plotting
+df['Assignment_Display'] = df['Assignment'].replace({
+    'Final Project Proposal': 'Final Proposal',
+    'Final Project Submission': 'Final Project'
+})
+
+plt.style.use('seaborn-v0_8-whitegrid')
+fig = plt.figure(figsize=(20, 28))
+
+# Define grid: 3 rows of charts. The text will be placed below them.
+gs = gridspec.GridSpec(3, 2, height_ratios=[1, 1, 1], hspace=0.6)
 
 def design_ax(ax, title, ylabel):
-    ax.set_title(title, fontweight='bold', fontsize=16, pad=15)
+    ax.set_title(title, fontweight='bold', fontsize=16, pad=20)
     ax.set_ylabel(ylabel, fontsize=12)
-    ax.tick_params(axis='x', rotation=40)
+    # CRITICAL: rotation + ha='right' prevents text from overlapping next charts
+    plt.setp(ax.get_xticklabels(), rotation=45, ha='right', fontsize=10)
 
+# Chart 0: Heatmap (Submission Intensity)
 ax0 = fig.add_subplot(gs[0, 0])
 pivot = df.pivot_table(index='Day_of_Week', columns='Hour_Created', values='User', aggfunc='count').fillna(0).reindex(['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'])
 sns.heatmap(pivot, cmap="YlOrRd", ax=ax0)
 ax0.set_title(f"Submission Intensity (Updated: {update_time})", fontweight='bold', fontsize=16)
 
+# Chart 1: Total Students (using Display names)
 ax1 = fig.add_subplot(gs[0, 1])
-sub_counts = df[df['Assignment'] != "Other"]['Assignment'].value_counts().reindex(deadlines.keys())
-sns.barplot(x=sub_counts.index, y=sub_counts.values, ax=ax1, palette="viridis")
+# We use Assignment_Display here to keep the labels short
+sub_counts = df[df['Assignment_Display'] != "Other"]['Assignment_Display'].value_counts()
+sns.barplot(x=sub_counts.index, y=sub_counts.values, ax=ax1, palette="viridis", hue=sub_counts.index, legend=False)
 design_ax(ax1, "Total Students per Assignment", "Count")
 
+# Chart 2: Lateness Distribution
 ax2 = fig.add_subplot(gs[1, 0])
-late_plot = df[df['Assignment'] != "Other"].groupby(['Assignment', 'Is_Late']).size().unstack().fillna(0)
+late_plot = df[df['Assignment_Display'] != "Other"].groupby(['Assignment_Display', 'Is_Late']).size().unstack().fillna(0)
 late_plot.plot(kind='bar', stacked=True, ax=ax2, color=['#2ecc71', '#e74c3c'])
 design_ax(ax2, "Lateness Distribution", "Students")
 
+# Chart 3: Complexity (Avg Comments)
 ax3 = fig.add_subplot(gs[1, 1])
-avg_comments = df[df['Assignment'] != "Other"].groupby('Assignment')['Comments_Count'].mean()
-sns.barplot(x=avg_comments.index, y=avg_comments.values, ax=ax3, palette="magma")
+avg_comments = df[df['Assignment_Display'] != "Other"].groupby('Assignment_Display')['Comments_Count'].mean()
+sns.barplot(x=avg_comments.index, y=avg_comments.values, ax=ax3, palette="magma", hue=avg_comments.index, legend=False)
 design_ax(ax3, "Complexity (Avg Comments)", "Comments")
 
+# Chart 4: Resolution Time
 ax4 = fig.add_subplot(gs[2, 0])
-res_time = df[df['Assignment'] != "Other"].groupby('Assignment')['Resolution_Days'].mean()
-sns.barplot(x=res_time.index, y=res_time.values, ax=ax4, palette="coolwarm")
-design_ax(ax4, "Avg Days to Approve", "Avg Days to Approve")
+res_time = df[df['Assignment_Display'] != "Other"].groupby('Assignment_Display')['Resolution_Days'].mean()
+sns.barplot(x=res_time.index, y=res_time.values, ax=ax4, palette="coolwarm", hue=res_time.index, legend=False)
+design_ax(ax4, "Avg Days to Approve", "Avg Days")
 
-ax_text = fig.add_subplot(gs[3, :])
-ax_text.axis('off')
+# --- THE CRITICAL FIX FOR OVERLAP ---
+
+# 1. Create a large empty space at the bottom for the text
+plt.subplots_adjust(bottom=0.22) 
+
+
+
 
 summary = (
     f"--- COURSE PEDAGOGICAL SUMMARY ---\n\n"
@@ -118,9 +142,10 @@ summary = (
     f"• Workflow: It takes an average of {res_time.mean():.1f} days to close a task."
 )
 
-ax_text.text(0.5, 0.5, summary, fontsize=18, va='center', ha='center',
-             bbox=dict(boxstyle="round,pad=1.5", facecolor='aliceblue', alpha=0.8, edgecolor='navy'))
 
+# 2. Place the summary box in a fixed position (outside the axes)
+fig.text(0.5, 0.08, summary, fontsize=17, va='center', ha='center',
+         bbox=dict(boxstyle="round,pad=1.5", facecolor='aliceblue', alpha=0.9, edgecolor='navy'))
 import os
 
 # Get the absolute path of the directory where the current script is located
