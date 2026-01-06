@@ -121,5 +121,17 @@ summary = (
 ax_text.text(0.5, 0.5, summary, fontsize=18, va='center', ha='center',
              bbox=dict(boxstyle="round,pad=1.5", facecolor='aliceblue', alpha=0.8, edgecolor='navy'))
 
-plt.subplots_adjust(hspace=0.6, wspace=0.3)
-plt.savefig('pedagogical_final_report.png', bbox_inches='tight')
+import os
+
+# Get the absolute path of the directory where the current script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the full output path for the image file
+file_output = os.path.join(script_dir, "final_course_report.png")
+
+# Save the plot with a tight layout to ensure no elements are cut off
+plt.savefig(file_output, dpi=300, bbox_inches='tight')
+print(f"Success! Report saved in the script folder at: {file_output}")
+# Save the Data to Excel in the same directory
+file_output_excel = os.path.join(script_dir, "course_data_results.xlsx")
+df.to_excel(file_output_excel, index=False)
