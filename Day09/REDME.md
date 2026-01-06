@@ -1,6 +1,6 @@
 # Python Course Pedagogical Analyzer 📊
 
-This project is a data-driven tool designed to bridge the gap between raw GitHub technical data and actionable pedagogical insights. By analyzing student submissions, comments, and resolution times, it provides course staff with a high-level view of class progress and difficulty points.
+This project is a data-driven tool designed to bridge the gap between raw GitHub technical data and actionable pedagogical insights. By analyzing student submissions, comments, and resolution times, it provides course staff with a high-level view of class progress and difficulty points..
 
 ## 🌟 Key Features
 
