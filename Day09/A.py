@@ -7,7 +7,7 @@ from datetime import datetime
 import pytz
 import matplotlib.gridspec as gridspec
 
-# --- PART 1: DATA COLLECTION ---
+# --- PART 1: DATA FETCHING ---
 repo = "Code-Maven/wis-python-course-2025-10"
 file_name = "all_github_issues_complete.csv"
 data = []
@@ -34,7 +34,7 @@ while True:
 
 df = pd.DataFrame(data)
 
-# --- PART 2: PROCESSING ---
+# --- PART 2: DATA PROCESSING ---
 deadlines_raw = {
     "Day 01": "2025-11-02 22:00", "Day 02": "2025-11-09 22:00",
     "Day 03": "2025-11-16 22:00", "Day 04": "2025-11-23 22:00",
@@ -53,64 +53,60 @@ def extract_name(title):
     return f"Day {match.group(1).zfill(2)}" if match else "Other"
 
 df['Created_At'] = pd.to_datetime(df['Created_At']).dt.tz_localize(None)
+df['Closed_At'] = pd.to_datetime(df['Closed_At']).dt.tz_localize(None)
 df['Assignment'] = df['Title'].apply(extract_name)
 df['Day_of_Week'] = df['Created_At'].dt.day_name()
 df['Hour_Created'] = df['Created_At'].dt.hour
+df['Resolution_Days'] = (df['Closed_At'] - df['Created_At']).dt.total_seconds() / (24 * 3600)
 df['Is_Late'] = df.apply(lambda r: r['Created_At'] > deadlines[r['Assignment']] if r['Assignment'] in deadlines else False, axis=1)
 
-# Summary Stats
-top_day = df['Day_of_Week'].value_counts().idxmax()
+# --- PART 3: VISUALIZATION ---
+# 1. We increase the figure size significantly to prevent overlapping
+fig = plt.figure(figsize=(18, 25)) 
 
-# --- PART 3: VISUALIZATION (FIXED LAYOUT) ---
-# Set theme that works well in VS Code (Dark/Light)
-sns.set_theme(style="whitegrid")
-fig = plt.figure(figsize=(16, 20))
+# 2. Use GridSpec with explicit high 'hspace' for vertical air between charts
+gs = gridspec.GridSpec(5, 1, height_ratios=[1.2, 1, 1, 1, 0.4], hspace=0.6)
 
-# Increased hspace (height space) to prevent overlapping
-gs = gridspec.GridSpec(4, 2, height_ratios=[1, 1, 1, 0.5], hspace=0.5, wspace=0.3)
+def format_plot(ax, title):
+    ax.set_title(title, fontweight='bold', fontsize=16, pad=20)
+    plt.setp(ax.get_xticklabels(), rotation=30, ha='right', fontsize=11)
 
-def style_plot(ax, title, ylabel):
-    ax.set_title(title, fontweight='bold', fontsize=14, pad=10)
-    ax.set_ylabel(ylabel, fontsize=12)
-    # Rotate labels and align to the right to save vertical space
-    plt.setp(ax.get_xticklabels(), rotation=45, ha='right')
-
-# 1. Heatmap
-ax0 = fig.add_subplot(gs[0, 0])
+# Chart 1: Heatmap
+ax0 = fig.add_subplot(gs[0])
 pivot = df.pivot_table(index='Day_of_Week', columns='Hour_Created', values='User', aggfunc='count').fillna(0)
-sns.heatmap(pivot, cmap="YlGnBu", ax=ax0)
-ax0.set_title("Submission Hours Heatmap", fontweight='bold')
+days_order = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+pivot = pivot.reindex(days_order)
+sns.heatmap(pivot, cmap="YlGnBu", ax=ax0, cbar_kws={'label': 'Submissions'})
+ax0.set_title(f"Submission Intensity (Updated: {update_time})", fontweight='bold', fontsize=16)
 
-# 2. Student Count
-ax1 = fig.add_subplot(gs[0, 1])
-sub_counts = df[df['Assignment'] != "Other"]['Assignment'].value_counts().reindex(deadlines.keys())
-sns.barplot(x=sub_counts.index, y=sub_counts.values, ax=ax1, palette="magma", hue=sub_counts.index, legend=False)
-style_plot(ax1, "Total Students per Assignment", "Count")
+# Chart 2: Student Counts
+ax1 = fig.add_subplot(gs[1])
+counts = df[df['Assignment'] != "Other"]['Assignment'].value_counts().reindex(deadlines.keys())
+sns.barplot(x=counts.index, y=counts.values, ax=ax1, palette="viridis", hue=counts.index, legend=False)
+format_plot(ax1, "Total Students per Assignment")
 
-# 3. Lateness
-ax2 = fig.add_subplot(gs[1, 0])
-late_data = df[df['Assignment'] != "Other"].groupby(['Assignment', 'Is_Late']).size().unstack().fillna(0)
-late_data.plot(kind='bar', stacked=True, ax=ax2, color=['#4CAF50', '#F44336'])
-style_plot(ax2, "Submission Status (On-Time vs Late)", "Count")
+# Chart 3: Lateness
+ax2 = fig.add_subplot(gs[2])
+late_df = df[df['Assignment'] != "Other"].groupby(['Assignment', 'Is_Late']).size().unstack().fillna(0)
+late_df.plot(kind='bar', stacked=True, ax=ax2, color=['#4CAF50', '#F44336'])
+format_plot(ax2, "On-Time (Green) vs Late (Red)")
 
-# 4. Complexity
-ax3 = fig.add_subplot(gs[1, 1])
-avg_comm = df[df['Assignment'] != "Other"].groupby('Assignment')['Comments_Count'].mean()
-sns.barplot(x=avg_comm.index, y=avg_comm.values, ax=ax3, palette="rocket", hue=avg_comm.index, legend=False)
-style_plot(ax3, "Avg Comments per Task", "Avg Comments")
+# Chart 4: Complexity
+ax3 = fig.add_subplot(gs[3])
+avg_c = df[df['Assignment'] != "Other"].groupby('Assignment')['Comments_Count'].mean()
+sns.barplot(x=avg_c.index, y=avg_c.values, ax=ax3, palette="magma", hue=avg_c.index, legend=False)
+format_plot(ax3, "Average Comments (Complexity Indicator)")
 
-# 5. Summary Text Box (Bottom)
-ax_text = fig.add_subplot(gs[3, :])
+# Summary Box
+ax_text = fig.add_subplot(gs[4])
 ax_text.axis('off')
-summary = (
-    f"COURSE INSIGHTS\n"
-    f"Updated: {update_time}\n"
-    f"Peak Day: {top_day}\n"
-    f"Hardest Task: {avg_comm.idxmax()} ({avg_comm.max():.1f} comments)"
-)
-ax_text.text(0.5, 0.5, summary, fontsize=16, ha='center', va='center', 
-             bbox=dict(boxstyle="round,pad=1", facecolor='#f0f8ff', edgecolor='navy'))
+summary = f"Summary: Data refreshed on {update_time}. Hardest task: {avg_c.idxmax()}."
+ax_text.text(0.5, 0.5, summary, fontsize=14, ha='center', bbox=dict(facecolor='white', alpha=0.5))
 
-# Final layout adjustment to ensure no text is cut
-plt.tight_layout()
+# --- PART 4: SAVING THE FILE ---
+# Use bbox_inches='tight' to ensure nothing is cut off in the file
+file_output = "final_course_report.png"
+plt.savefig(file_output, dpi=300, bbox_inches='tight')
+print(f"Success! Report saved as: {file_output}")
+
 plt.show()
