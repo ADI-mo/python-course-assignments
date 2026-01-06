@@ -63,6 +63,9 @@ This project was co-developed with **Gemini AI**, utilizing advanced data engine
 * **דיוק הדיווח:** המערכת אינה מזהה מקרים בהם הקוד עודכן משמעותית לאחר פתיחת ה-Issue המקורי.
 
 ---
+## 📸 Dashboard Example
+![Course Pedagogical Dashboard](./final_course_report.png)
+*Figure 1: Automated dashboard generated from GitHub Issue data.*
 
 ## 📁 Project Structure
 
