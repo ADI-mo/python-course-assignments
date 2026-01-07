@@ -116,7 +116,7 @@ design_ax(ax2, "Lateness Distribution", "Students")
 ax3 = fig.add_subplot(gs[1, 1])
 avg_comments = df[df['Assignment_Display'] != "Other"].groupby('Assignment_Display')['Comments_Count'].mean()
 sns.barplot(x=avg_comments.index, y=avg_comments.values, ax=ax3, palette="magma", hue=avg_comments.index, legend=False)
-design_ax(ax3, "Complexity (Avg Comments)", "Comments")
+design_ax(ax3, "Complexity (Avg Comments)", "Avg Comments")
 
 # Chart 4: Resolution Time
 ax4 = fig.add_subplot(gs[2, 0])
