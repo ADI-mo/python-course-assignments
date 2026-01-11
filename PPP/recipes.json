@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Pasta Bolognese",
+    "type": "Meat",
+    "is_vegan": false,
+    "is_vegetarian": false,
+    "prep_time": 30,
+    "ingredients": {"Pasta": 500, "Minced Meat": 300, "Tomato Sauce": 1}
+  },
+  {
+    "name": "Shakshuka",
+    "type": "Parve",
+    "is_vegan": false,
+    "is_vegetarian": true,
+    "prep_time": 20,
+    "ingredients": {"Eggs": 4, "Tomato": 4, "Onion": 1}
+  }
+]
